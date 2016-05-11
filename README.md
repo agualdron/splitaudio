@@ -9,18 +9,18 @@ The program uses avconv in command line to convert the audio files to different 
          splitaudio --input <input_file.wav> --list <list_of_names.txt>  <...>
          
 ##Arguments
-  Long          Short"
-- -input        -i       <input_file.wav>      : input file, should be a wav file.
-- -list         -l       <list_of_names>       : a text file with the list of names and times.
-- -format       -f       <mp3 | aiff | ogg>    : the output audio format. default is wav
-- -keep-wav     -k                             : keep the sliced .wav files if other format is configured
-- -help         -h                             : display help
-- -verbose      -v                             : print messages
+- --input        (-i)       <input_file.wav>      : input file, should be a wav file.
+- --list         (-l)       <list_of_names>       : a text file with the list of names and times.
+- --format       (-f)       <mp3 | aiff | ogg>    : the output audio format. default is wav
+- --keep-wav     (-k)                             : keep the sliced .wav files if other format is configured
+- --help         (-h)                             : display help
+- --verbose      (-v)                             : print messages
  
 Format of the lines in list: 
-<track number>. <Name> <minutes:seconds>
 
-<##>. <Name> <mm:ss>
+         <track number>. <Name> <minutes:seconds>
+
+         < ## >. < Name > < mm:ss >
 
 Example:
 
