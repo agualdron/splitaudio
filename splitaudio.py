@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 import soundfile as sf
-import sounddevice as sd
+#import sounddevice as sd
 import os
 
 import os.path
