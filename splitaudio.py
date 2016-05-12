@@ -33,16 +33,18 @@ def getNamesAndTimes(iFile):
 		for line in list_file:
 			line = line.replace('.', '-')
 			line = line.replace(',', ' ')
+			line = line.strip()
 			# find the ':' to identify the time
 			idx = line.find(':')
 			
-			if idx == -1:
-				times.append(0)
-				names.append(line.strip())
-			else:
-				sec = int(line[idx-2:idx])*60+int(line[idx+1:idx+3])
-				times.append(sec)
-				names.append(line[0:idx-2].strip())
+			if len(line)>6:		# one leter for the name and 00:00
+				if idx == -1:
+					times.append(0)
+					names.append(line.strip())
+				else:
+					sec = int(line[idx-2:idx])*60+int(line[idx+1:idx+3])
+					times.append(sec)
+					names.append(line[0:idx-2].strip())
 				
 	return names,times
 	
