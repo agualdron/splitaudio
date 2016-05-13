@@ -52,7 +52,7 @@ def getNamesAndTimes(iFile):
 						times.append(sec)
 						names.append(line[0:idx-2].strip())
 					elif line.count(':')==2:
-						sec = int(line[idx-2:idx])*3600+int(line[idx+1:idx+3]*60)+int(line[idx+4:idx+7])
+						sec = int(line[idx-2:idx])*3600+int(line[idx+1:idx+3])*60+int(line[idx+4:idx+7])
 						times.append(sec)
 						names.append(line[0:idx-2].strip())
 						
@@ -190,7 +190,8 @@ if __name__ == "__main__":
 		for k in range(0, len(names)):
 			print "  ", str(times[k]).ljust(10), "  ", names[k]
 	
-	print 'Slicing audio and creating .wav files'
+	print 'Spliting audio and creating .wav files'
+	
 	sliceAudio(iaudiofile, names, times, verbose_en)	
 	
 	if au_format != '':
