@@ -7,7 +7,13 @@ import os
 import os.path
 import sys, getopt
 
+import re
+
 version="0.1"
+
+time_pattern  = r"((([0-9])?[0-9](:|\.))?([0-9])?[0-9](:|\.)?[0-9][0-9])"
+time_pattern2 = r"(([0-9]?[0-9]):)?([0-9]?[0-9]):([0-9][0-9])"
+nonValidChars = ".;[]{}#$&/()=~+^"
 
 def sliceAudio(iFilename, names, times, verbose_en):
 	#open aduio
@@ -26,7 +32,7 @@ def sliceAudio(iFilename, names, times, verbose_en):
 		if verbose_en == True:
 			print names[i]+'.wav'
 
-def getNamesAndTimes(iFile):
+def getNamesAndTimes_old(iFile):
 	times = []
 	names = []
 	with open(iFile, 'r') as list_file:
@@ -37,8 +43,6 @@ def getNamesAndTimes(iFile):
 			line = line.replace('(', '-')
 			line = line.strip()
 			# find the ':' to identify the time
-			
-			
 			
 			idx = line.find(':')
 			
@@ -55,9 +59,32 @@ def getNamesAndTimes(iFile):
 						sec = int(line[idx-2:idx])*3600+int(line[idx+1:idx+3])*60+int(line[idx+4:idx+7])
 						times.append(sec)
 						names.append(line[0:idx-2].strip())
-						
-				
 	return names,times
+	
+
+def getNamesAndTimes (iFile):
+	times = []
+	names = []
+	
+	with open (iFile, 'r') as list_file:
+		for line in list_file:
+			if len(line.strip())==0:
+				continue
+			match = re.search(time_pattern, line)
+			if match==None:
+				sec = 0
+				line = line.translate(None, nonValidChars).strip()
+			else:
+				line  = line.replace(match.group(), "").translate(None, nonValidChars).strip()
+				time_str = match.group()
+				match = re.search(time_pattern2, time_str)
+				none, hours, minutes, seconds = match.groups()
+				hours = 0 if hours==None else hours
+				sec = (int(hours)*3600)+(int(minutes)*60)+int(seconds)
+			
+			times.append(sec)
+			names.append(line)
+	return names, times
 	
 def convert2fmt(names, fmt, keep_wav, verbose_en):
 	#Convert to mp3
@@ -103,7 +130,7 @@ def showHelp():
 	print "   <track number>. <Name> <minutes:seconds>"
 	print "   <##>. <Name> <mm:ss>"
 	print "   Example:"
-	print "            3. Hello (Buddy) 8:07"
+	print "            4. Hello (Buddy) 8:07"
 	print " "
 	print " "
 
